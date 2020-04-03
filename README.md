@@ -390,10 +390,162 @@ You can then step through each step of the program and then see how to local var
 
 ### Functions vs Procedures
 
+There are two different kinds of methods:
+
+* A procedure does something. It's name is a verb
+* A function does something. It's name is a noun
+
+#### Procedures
+
+* A procedure is a method that does an action/has some "effect.
+    * e.g. prints a value, changes a value
+* A procedure may take parameters, but should return nothing
+* The name of a procedure is a verb describing the goal
+
+```java
+public static void showCircleArea(double radius) {
+    double area = Math.PI * radius * radius;
+    System.out.println("The area of the circle is " + area);
+}
+```
+
+* A procedure may use local variables. A local variable is temporary. It is deleted when the method exits
+
+#### Functions
+
+* A function is a method that returns a value
+* A funciton should not have any side effects
+    * It should not print a value or change a value
+* A function may take parameters
+* The name of a function is a noun describin what it is returning
+
+```java
+public static double circleArea(double radius) {
+    double area = Math.PI * radius * radius;
+    return area;
+}
+```
+
+* A function may also use local variables
+
+#### Side effects
+
+* Function design rule
+    * A function returns a value and changes nothing
+* If a function changes something, this is called a "side effect"
+* Side effects are bad:
+    * the reader assumes the function changes nothing
+    * the read does not look inside the funciton
+    * because a function changes nothing
+* Avoid programming by side effect
+    * Unless it is a known pattern
+
+#### Interaction between procedures and functions
+
+* A procedure can call a function
+* A function can call a function
+* But a function should not call a procedure
+
+Functions should not have side effects
+ 
+Calling a procedure may introduce side effects
+
 ### String functions and patterns
+
+In Java, String is a class, providing a set of useful functions
+
+| Functions | Description |
+| ---- | --- |
+| `int length()` | returns the length of the string |
+| `char charAt(int i)` | returns the character at position i |
+| `String[] split(String operator)` | returns an array of substring split by the separator |
+
+e.g.
+
+```java
+String s = "hello world";
+System.out.println(s.length());     // prints 11
+System.out.println(s.charAt(1));    // prints 'e'
+String[] words = s.split(" ");      // returns {"hello", "world"}
+```
+
+*To see patterns, go to the patterns book*
+
+#### Looping over words in a string using "split"
+
+**Program:**
+
+```java
+String sentence = "Eat your vegatables";
+for (String word : sentence.split(" "))
+    System.println("Next word = " + word);
+```
+
+**Output:**
+
+```
+Next word = Eat
+Next word = your
+Next word = vegatables
+```
+
+#### Split by one or more spaces
+
+* If you have a string with extra spaces between words:
+    * <pre>String sentence = "Eat          your         vegetables"</pre>
+* Use the regular expression <pre>" +"</pre> as the separator
+
+```java
+for (String word : sentence.split(" +"))
+    System.out.println("Next word = " + word);
+```
+
+**Output:**
+
+```
+Next word = Eat
+Next word = your
+Next word = vegatables
+```
 
 ### Functional patterns
 
+*Go to the patterns book*
+
 ### Boolean function
 
+* Bad: `if (matches == true)`
+
+* Good: `if (matches)`
+    * There is no need to comparae a boolean to true or false
+    * A boolean *is* true or false
+<br>
+<br>
+* A boolean function returns a boolean value:
+    ```java
+    boolean isDry(int rain) {
+        return rain == 0;
+    ```
+
+* The name of a boolean is an adjectival phrase
+    * e.g. `boolean dry(int rain)`, `boolean isDry(int rain)`, `boolean hasDry()`
+
 ### Break it down, build it up
+
+#### Break a program into functions
+
+**Specification:** Read in a sentence. Show the number of words that contains a lowercase vowel.
+
+**Remember:** Each goal goes in a separate method.
+
+| Level | Goal | Pattern | Form |
+| --- | --- | --- | --- |
+| *Sentence level* | How many matching words in this sentence? | *count* | *param:* String sentence, *result:* int
+| *Word level* | Are there any lowercase vowels in this word? | *any* | *param:* String word, *result:* boolean
+| *Character level* | Is this character any of these: a/e/i/o/u? | *any* | *param:* char c, *result:* boolean
+
+#### Implementing the solution
+
+When implementing the solution, start at the lowest level first. In this case, the lowest level would be  *Character level* as this is the lowest level that doesn't depend on anything, then work your way up.
+
+
